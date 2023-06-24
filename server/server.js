@@ -85,4 +85,4 @@ app.use(express.static('images'));
 
 app.post('/add-image', addImage.uploadImage);
 
-app.listen(4001, () => console.log("Server on localhost:4000"));
+app.listen(4000, () => console.log("Server on localhost:4000"));

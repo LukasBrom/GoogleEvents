@@ -32,7 +32,7 @@ router.patch('/', async (req, res) => {
             updateTextQueries.push(pool.query(updateTitleQuery));
         }
         if (eventData.eventCategory) {
-            const getCategoryQuery = `SELECT category_id FROM category_i18n WHERE text_en = '${eventData.eventCategory.value}'`;
+            const getCategoryQuery = `SELECT category_id FROM category_i18n WHERE text_en = '${eventData.eventCategory}'`;
             const categoryResult = await pool.query(getCategoryQuery);
             const category = categoryResult.rows[0];
 
@@ -58,7 +58,7 @@ router.patch('/', async (req, res) => {
             updateTextQueries.push(pool.query(updateCityQuery));
         }
         if (eventData.eventPriceCat) {
-            const updatePriceCatQuery = `UPDATE events SET price_category = '${eventData.eventPriceCat.value}' WHERE event_id = '${event_id}'::uuid;`;
+            const updatePriceCatQuery = `UPDATE events SET price_category = '${eventData.eventPriceCat}' WHERE event_id = '${event_id}'::uuid;`;
             updateTextQueries.push(pool.query(updatePriceCatQuery));
         }
         if (eventData.eventLongitude) {
@@ -68,6 +68,14 @@ router.patch('/', async (req, res) => {
         if (eventData.eventLatitude) {
             const updateLatitudeQuery = `UPDATE events SET latitude = '${eventData.eventLatitude}' WHERE event_id = '${event_id}'::uuid;`;
             updateTextQueries.push(pool.query(updateLatitudeQuery));
+        }
+        if (eventData.eventStreetNumber) {
+            const updateStreetNumberQuery = `UPDATE events SET street_number = '${eventData.eventStreetNumber}' WHERE event_id = '${event_id}'::uuid;`;
+            updateTextQueries.push(pool.query(updateStreetNumberQuery));
+        }
+        if (eventData.eventPostcode) {
+            const updatePostcodeQuery = `UPDATE events SET postcode = '${eventData.eventPostcode}' WHERE event_id = '${event_id}'::uuid;`;
+            updateTextQueries.push(pool.query(updatePostcodeQuery));
         }
         await Promise.all(updateTextQueries);
 

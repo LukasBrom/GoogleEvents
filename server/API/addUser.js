@@ -18,13 +18,14 @@ router.post('/', async (req, res) => {
 
         // Insert the new user into the user_information table
         const insertUserQuery = `INSERT INTO users (username, email, password, profile_picture)
-                                 VALUES ($1, $2, $3, $4)`;
+                                VALUES ($1, $2, $3, $4) RETURNING user_id`;
 
         console.log(email);
-        await pool.query(insertUserQuery, [username, email, password, profile_picture]);
+        const queryResult = await pool.query(insertUserQuery, [username, email, password, profile_picture]);
+        const user_id = queryResult.rows[0].user_id;
 
         console.log('User added');
-        res.send('User added');
+        res.send(user_id);
     } catch (error) {
         console.error('Error adding user:', error);
         res.status(500).send('Error adding user');

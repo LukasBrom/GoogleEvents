@@ -3,7 +3,7 @@ const pool = require('./database');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
     const { email, username, password } = req.body;
 
     let getUserQuery = 'SELECT user_id FROM users WHERE ';
@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
                 return res.status(404).send('Invalid email or password');
             }
             const { user_id } = user;
-            res.json({ user_id });
+            res.send(user_id);
         })
         .catch((error) => {
             console.error('Error retrieving user ID:', error);
